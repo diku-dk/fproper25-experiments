@@ -18,5 +18,5 @@ data/%_i32.vals: mkdata
 	@mkdir -p data
 	futhark script -b ./mkdata "vals $*i64" > data/$*_i32.vals
 
-%: %.cu data.hpp
+%: %.cu data.hpp timing.hpp
 	$(NVCC) $< $(CFLAGS) -o $@

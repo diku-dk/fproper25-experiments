@@ -26,29 +26,29 @@ entry bench_linear_lookup [n] (hm: linear i32) (keys: [n]i64) =
 
 -- ==
 -- entry: bench_two_level_construct bench_linear_construct
--- "n=100000"
--- script input { ($loaddata "data/1000000_i64.keys", $loaddata "data/1000000_i32.vals") }
 -- "n=1000000"
+-- script input { ($loaddata "data/1000000_i64.keys", $loaddata "data/1000000_i32.vals") }
+-- "n=10000000"
 -- script input { ($loaddata "data/10000000_i64.keys", $loaddata "data/10000000_i32.vals") }
 
 -- ==
 -- entry: bench_two_level_lookup
--- "n=100000"
+-- "n=1000000"
 -- script input { (bench_two_level_construct ($loaddata "data/1000000_i64.keys") ($loaddata "data/1000000_i32.vals"),
 --                 ($loaddata "data/1000000_i64.keys"))
 --              }
--- "n=1000000"
+-- "n=10000000"
 -- script input { (bench_two_level_construct ($loaddata "data/10000000_i64.keys") ($loaddata "data/10000000_i32.vals"),
 --                 ($loaddata "data/10000000_i64.keys"))
 --              }
 
 -- ==
 -- entry: bench_linear_lookup
--- "n=100000"
+-- "n=1000000"
 -- script input { (bench_linear_construct ($loaddata "data/1000000_i64.keys") ($loaddata "data/1000000_i32.vals"),
 --                 ($loaddata "data/1000000_i64.keys"))
 --              }
--- "n=1000000"
+-- "n=10000000"
 -- script input { (bench_linear_construct ($loaddata "data/10000000_i64.keys") ($loaddata "data/10000000_i32.vals"),
 --                 ($loaddata "data/10000000_i64.keys"))
 --              }
