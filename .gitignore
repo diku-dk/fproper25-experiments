@@ -1,7 +1,7 @@
 lib
 histogram
 benchmarks
-benchmark.c
+benchmarks.c
 mkdata
 host_bulk_example
 data/

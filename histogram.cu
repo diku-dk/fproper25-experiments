@@ -71,7 +71,7 @@ int main(int argc, char** argv) {
        cudaDeviceSynchronize();
      });
 
-  std::cout << "    insertion: " << insertAvgTime << "μs" << std::endl;
+  std::cout << "    construct: " << insertAvgTime << "μs" << std::endl;
 
   thrust::device_vector<Value> found_values(num_keys);
 

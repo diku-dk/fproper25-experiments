@@ -10,6 +10,13 @@ mkdata: mkdata.fut
 benchmarks: benchmarks.fut
 	$(FUTHARK) cuda --server $<
 
+data/%_i64.keys: mkdata
+	@mkdir -p data
+	futhark script -b ./mkdata "keys $*i64" > data/$*_i64.keys
+
+data/%_i32.vals: mkdata
+	@mkdir -p data
+	futhark script -b ./mkdata "vals $*i64" > data/$*_i32.vals
 
 %: %.cu data.hpp
 	$(NVCC) $< $(CFLAGS) -o $@

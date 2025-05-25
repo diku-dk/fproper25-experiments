@@ -1,8 +1,8 @@
 #!/bin/sh
 
-set -e
+Ns="1000000 10000000 100000000"
 
-mkdir -p data
+set -e
 
 echo
 echo Compiling programs
@@ -10,8 +10,7 @@ make mkdata histogram benchmarks -j
 
 echo
 echo Generating data
-futhark script -b ./mkdata 'keys 1000000i64' > data/1000000_i64.keys
-futhark script -b ./mkdata 'vals 1000000i64' > data/1000000_i32.vals
+make -j $(for N in $Ns; do echo data/${N}_i64.keys data/${N}_i32.vals; done)
 
 echo
 echo Benchmarking Futhark
@@ -19,4 +18,7 @@ futhark bench --skip-compilation --backend=cuda benchmarks.fut --json futhark.js
 
 echo
 echo Benchmarking CUDA
-./histogram data/1000000_i64.keys data/1000000_i32.vals
+
+for N in $Ns; do
+    ./histogram data/${N}_i64.keys data/${N}_i32.vals
+done

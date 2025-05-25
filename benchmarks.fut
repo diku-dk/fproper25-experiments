@@ -16,10 +16,22 @@ entry bench_lookup [n] (hm: hashmap.map [] i32) (keys: [n]i64) =
 -- entry: bench_construct
 -- "n=100000"
 -- script input { ($loaddata "data/1000000_i64.keys", $loaddata "data/1000000_i32.vals") }
+-- "n=1000000"
+-- script input { ($loaddata "data/10000000_i64.keys", $loaddata "data/10000000_i32.vals") }
+-- "n=10000000"
+-- script input { ($loaddata "data/100000000_i64.keys", $loaddata "data/100000000_i32.vals") }
 
 -- ==
 -- entry: bench_lookup
 -- "n=100000"
 -- script input { (bench_construct ($loaddata "data/1000000_i64.keys") ($loaddata "data/1000000_i32.vals"),
 --                 ($loaddata "data/1000000_i64.keys"))
+--              }
+-- "n=1000000"
+-- script input { (bench_construct ($loaddata "data/10000000_i64.keys") ($loaddata "data/10000000_i32.vals"),
+--                 ($loaddata "data/10000000_i64.keys"))
+--              }
+-- "n=10000000"
+-- script input { (bench_construct ($loaddata "data/100000000_i64.keys") ($loaddata "data/100000000_i32.vals"),
+--                 ($loaddata "data/100000000_i64.keys"))
 --              }
