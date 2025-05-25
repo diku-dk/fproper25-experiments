@@ -1,12 +1,12 @@
 #!/bin/sh
 
-Ns="1000000 10000000 100000000"
+Ns="1000000 10000000"
 
 set -e
 
 echo
 echo Compiling programs
-make mkdata histogram benchmarks -j
+make mkdata inttables benchmarks -j
 
 echo
 echo Generating data
@@ -20,5 +20,5 @@ echo
 echo Benchmarking CUDA
 
 for N in $Ns; do
-    ./histogram data/${N}_i64.keys data/${N}_i32.vals
+    ./inttables data/${N}_i64.keys data/${N}_i32.vals
 done
