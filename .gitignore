@@ -2,7 +2,10 @@ lib
 inttables
 benchmarks
 benchmarks.c
+benchmarks.json
 mkdata
+mkdata.c
 host_bulk_example
 data/
+*.prof
 futhark.json
