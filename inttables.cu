@@ -26,8 +26,10 @@ template <typename MapRef, typename InputIterator, typename OutputIterator>
 __global__ void scalar_find(MapRef set, InputIterator keys, std::size_t n, OutputIterator found) {
   int64_t i = blockDim.x * blockIdx.x + threadIdx.x;
 
-  auto [j, val] = *set.find(*(keys + i));
-  found[i] = val;
+  if (i < n) {
+    auto [j, val] = *set.find(*(keys + i));
+    found[i] = val;
+  }
 }
 
 int main(int argc, char** argv) {
@@ -84,9 +86,9 @@ int main(int argc, char** argv) {
 
   std::cout << "    construct: " << insertAvgTime << "μs" << std::endl;
 
-  thrust::device_vector<Value> found_values(num_keys);
-
   {
+    thrust::device_vector<Value> found_values(num_keys);
+
     int lookupAvgTime = measureAverageExecutionTime
       (2.0,
        [&]() {
@@ -100,11 +102,14 @@ int main(int argc, char** argv) {
       thrust::equal(found_values.begin(), found_values.end(), insert_values.begin());
 
     if (!all_values_match) {
+      std::cerr << "Did not find all values." << std::endl;
       return 1;
     }
   }
 
   {
+    thrust::device_vector<Value> found_values(num_keys);
+
     const size_t BLOCK_SIZE = 256;
     size_t grid_size = (num_keys + BLOCK_SIZE - 1) / BLOCK_SIZE;
 
@@ -121,6 +126,7 @@ int main(int argc, char** argv) {
       thrust::equal(found_values.begin(), found_values.end(), insert_values.begin());
 
     if (!all_values_match) {
+      std::cerr << "Did not find all values." << std::endl;
       return 1;
     }
   }
