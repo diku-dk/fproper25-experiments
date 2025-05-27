@@ -3,9 +3,14 @@ intmap_cuco
 intmap
 intmap.c
 intmap.json
+strmap_cuco
+strmap
+strmap.c
+strmap.json
 mkdata
 mkdata.c
 host_bulk_example
 data/
 *.prof
 futhark.json
+random_words
