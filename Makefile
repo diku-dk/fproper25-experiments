@@ -2,12 +2,12 @@ NVCC=nvcc
 CFLAGS=-O3 -IcuCollections/include --gpu-architecture=sm_80 --expt-extended-lambda
 FUTHARK=futhark
 
-all: host_bulk_example inttables
+all: host_bulk_example intmap_cuco
 
 mkdata: mkdata.fut
 	$(FUTHARK) c --server $<
 
-benchmarks: benchmarks.fut
+intmap: intmap.fut
 	$(FUTHARK) cuda --server $<
 
 data/%_i64.keys: mkdata

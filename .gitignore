@@ -1,8 +1,8 @@
 lib
-inttables
-benchmarks
-benchmarks.c
-benchmarks.json
+intmap_cuco
+intmap
+intmap.c
+intmap.json
 mkdata
 mkdata.c
 host_bulk_example
