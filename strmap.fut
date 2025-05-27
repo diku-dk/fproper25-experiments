@@ -36,7 +36,7 @@ def words [n] (s: [n]char) =
 entry words_from_str (s: str) : []strkey.key = words s
 
 entry bench_two_level_construct [n] (s: str) (keys: [n]strkey.key) (vals: [n]i32) : two_level i32 =
-  two_level_hashmap.from_array s (zip keys vals)
+  two_level_hashmap.from_array_nodup s (zip keys vals)
 
 entry bench_two_level_lookup [n] (s: str) (hm: two_level i32) (keys: [n]strkey.key) =
   map (\x -> from_opt (-1) (two_level_hashmap.lookup s x hm)) keys
