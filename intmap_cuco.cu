@@ -32,6 +32,16 @@ __global__ void scalar_find(MapRef set, InputIterator keys, std::size_t n, Outpu
   }
 }
 
+template <typename MapRef, typename InputIterator, typename OutputIterator>
+__global__ void scalar_contains(MapRef set, InputIterator keys, std::size_t n, OutputIterator found) {
+  int64_t i = blockDim.x * blockIdx.x + threadIdx.x;
+
+  if (i < n) {
+    bool b = set.contains(*(keys + i));
+    found[i] = b;
+  }
+}
+
 int main(int argc, char** argv) {
   if (argc != 3) {
     std::cerr << "Usage: " << argv[0] << " KEYS VALUES" << std::endl;
@@ -124,6 +134,51 @@ int main(int argc, char** argv) {
 
     bool const all_values_match =
       thrust::equal(found_values.begin(), found_values.end(), insert_values.begin());
+
+    if (!all_values_match) {
+      std::cerr << "Did not find all values." << std::endl;
+      return 1;
+    }
+  }
+
+  {
+    thrust::device_vector<bool> exists(num_keys);
+
+    int lookupAvgTime = measureAverageExecutionTime
+      (2.0,
+       [&]() {
+         map.contains(insert_keys.begin(), insert_keys.end(), exists.begin());
+         cudaDeviceSynchronize();
+       });
+
+    std::cout << "       member: " << lookupAvgTime << "μs" << std::endl;
+
+    bool const all_values_match =
+      thrust::reduce(exists.begin(), exists.end(), true, thrust::logical_and<bool>());
+
+    if (!all_values_match) {
+      std::cerr << "Did not find all values." << std::endl;
+      return 1;
+    }
+  }
+
+  {
+    thrust::device_vector<bool> exists(num_keys);
+
+    const size_t BLOCK_SIZE = 256;
+    size_t grid_size = (num_keys + BLOCK_SIZE - 1) / BLOCK_SIZE;
+
+    int scalarLookupAvgTime = measureAverageExecutionTime
+      (2.0,
+       [&]() {
+         scalar_contains<<<grid_size,BLOCK_SIZE>>>(map.ref(cuco::contains), insert_keys.begin(), num_keys, exists.begin());
+         cudaDeviceSynchronize();
+       });
+
+    std::cout << "scalar member: " << scalarLookupAvgTime << "μs" << std::endl;
+
+    bool const all_values_match =
+      thrust::reduce(exists.begin(), exists.end(), true, thrust::logical_and<bool>());
 
     if (!all_values_match) {
       std::cerr << "Did not find all values." << std::endl;
