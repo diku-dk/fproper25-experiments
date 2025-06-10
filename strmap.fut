@@ -52,9 +52,9 @@ entry bench_eytzinger_tree_lookup [n] (s: str) (hm: eytzinger_tree i32) (keys: [
 
 -- ==
 -- entry: bench_two_level_construct bench_eytzinger_tree_construct
--- "n=100"
--- script input { let s = $loadbytes "data/100_words.txt"
---                in (s, words_from_str s, $loaddata "data/100_i32.vals") }
+-- "n=1000000"
+-- script input { let s = $loadbytes "data/1000000_words.txt"
+--                in (s, words_from_str s, $loaddata "data/1000000_i32.vals") }
 -- "n=100000"
 -- script input { let s = $loadbytes "data/100000_words.txt"
 --                in (s, words_from_str s, $loaddata "data/100000_i32.vals") }
@@ -62,13 +62,13 @@ entry bench_eytzinger_tree_lookup [n] (s: str) (hm: eytzinger_tree i32) (keys: [
 -- ==
 -- entry: bench_two_level_lookup
 --
--- "n=100"
--- script input { let s = $loadbytes "data/100_words.txt"
+-- "n=1000000"
+-- script input { let s = $loadbytes "data/1000000_words.txt"
 --                let keys = words_from_str s
---                let vals = $loaddata "data/100_i32.vals"
+--                let vals = $loaddata "data/1000000_i32.vals"
 --                let hm = bench_two_level_construct s keys vals
 --                in (s, hm, keys) }
--- output @ data/100_i32.vals
+-- output @ data/1000000_i32.vals
 --
 -- "n=100000"
 -- script input { let s = $loadbytes "data/100000_words.txt"
@@ -81,13 +81,13 @@ entry bench_eytzinger_tree_lookup [n] (s: str) (hm: eytzinger_tree i32) (keys: [
 -- ==
 -- entry: bench_eytzinger_tree_lookup
 --
--- "n=100"
--- script input { let s = $loadbytes "data/100_words.txt"
+-- "n=1000000"
+-- script input { let s = $loadbytes "data/1000000_words.txt"
 --                let keys = words_from_str s
---                let vals = $loaddata "data/100_i32.vals"
+--                let vals = $loaddata "data/1000000_i32.vals"
 --                let hm = bench_eytzinger_tree_construct s keys vals
 --                in (s, hm, keys) }
--- output @ data/100_i32.vals
+-- output @ data/1000000_i32.vals
 --
 -- "n=100000"
 -- script input { let s = $loadbytes "data/100000_words.txt"

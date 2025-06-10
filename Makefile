@@ -2,7 +2,7 @@ NVCC=nvcc
 CFLAGS=-O3 -IcuCollections/include --gpu-architecture=sm_80 --expt-extended-lambda
 FUTHARK=futhark
 
-all: host_bulk_example intmap_cuco random_words
+all: host_bulk_example intmap_cuco random_words strmap_cuco
 
 mkdata: mkdata.fut
 	$(FUTHARK) c --server $<
