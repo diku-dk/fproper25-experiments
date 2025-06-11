@@ -14,7 +14,7 @@ def seed = engine.rng_from_seed [1]
 type char = u8
 type~ str = []char
 
-module strkey = mk_slice_key u8key
+module strkey = mk_slice_key u8key (mk_encoder u8)
 module strarray = mk_array_key strkey engine
 
 module two_level_hashmap = mk_hashmap strkey engine

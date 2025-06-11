@@ -1,3 +1,3 @@
 require {
-  github.com/diku-dk/containers 0.6.5 #d686589149992dbfab432044879aac26b87ca7ad
+  github.com/diku-dk/containers 0.7.0 #635e1161baff0001e7140796ed7d89324a4183e4
 }
