@@ -1,4 +1,4 @@
-CC=cc
+CC?=cc
 NVCC=nvcc
 CFLAGS=-O3 -IcuCollections/include --gpu-architecture=sm_80 --expt-extended-lambda
 FUTHARK=futhark
@@ -12,7 +12,7 @@ mkdata: mkdata.fut
 	$(FUTHARK) cuda --server $<
 
 random_words: random_words.c
-	cc -o $@ $^ -Wall -O
+	$(CC) -o $@ $^ -Wall -O
 
 data/%_i64.keys: mkdata
 	@mkdir -p data
