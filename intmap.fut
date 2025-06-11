@@ -72,6 +72,8 @@ entry bench_eytzinger_tree_member [n] (hm: eytzinger_tree i32) (keys: [n]i64) =
 
 -- ==
 -- entry: bench_two_level_construct bench_two_level_u32_construct bench_linear_construct bench_sorted_array_construct bench_eytzinger_tree_construct
+-- "n=100000"
+-- script input { ($loaddata "data/100000_i64.keys", $loaddata "data/100000_i32.vals") }
 -- "n=1000000"
 -- script input { ($loaddata "data/1000000_i64.keys", $loaddata "data/1000000_i32.vals") }
 -- "n=10000000"
@@ -79,6 +81,10 @@ entry bench_eytzinger_tree_member [n] (hm: eytzinger_tree i32) (keys: [n]i64) =
 
 -- ==
 -- entry: bench_two_level_lookup
+-- "n=100000"
+-- script input { (bench_two_level_construct ($loaddata "data/100000_i64.keys") ($loaddata "data/100000_i32.vals"),
+--                 ($loaddata "data/100000_i64.keys"))
+--              }
 -- "n=1000000"
 -- script input { (bench_two_level_construct ($loaddata "data/1000000_i64.keys") ($loaddata "data/1000000_i32.vals"),
 --                 ($loaddata "data/1000000_i64.keys"))
@@ -90,6 +96,10 @@ entry bench_eytzinger_tree_member [n] (hm: eytzinger_tree i32) (keys: [n]i64) =
 
 -- ==
 -- entry: bench_two_level_u32_lookup
+-- "n=100000"
+-- script input { (bench_two_level_u32_construct ($loaddata "data/100000_i64.keys") ($loaddata "data/100000_i32.vals"),
+--                 ($loaddata "data/100000_i64.keys"))
+--              }
 -- "n=1000000"
 -- script input { (bench_two_level_u32_construct ($loaddata "data/1000000_i64.keys") ($loaddata "data/1000000_i32.vals"),
 --                 ($loaddata "data/1000000_i64.keys"))
@@ -101,6 +111,10 @@ entry bench_eytzinger_tree_member [n] (hm: eytzinger_tree i32) (keys: [n]i64) =
 
 -- ==
 -- entry: bench_linear_lookup
+-- "n=100000"
+-- script input { (bench_linear_construct ($loaddata "data/100000_i64.keys") ($loaddata "data/100000_i32.vals"),
+--                 ($loaddata "data/100000_i64.keys"))
+--              }
 -- "n=1000000"
 -- script input { (bench_linear_construct ($loaddata "data/1000000_i64.keys") ($loaddata "data/1000000_i32.vals"),
 --                 ($loaddata "data/1000000_i64.keys"))
@@ -112,6 +126,10 @@ entry bench_eytzinger_tree_member [n] (hm: eytzinger_tree i32) (keys: [n]i64) =
 
 -- ==
 -- entry: bench_sorted_array_lookup
+-- "n=100000"
+-- script input { (bench_sorted_array_construct ($loaddata "data/100000_i64.keys") ($loaddata "data/100000_i32.vals"),
+--                 ($loaddata "data/100000_i64.keys"))
+--              }
 -- "n=1000000"
 -- script input { (bench_sorted_array_construct ($loaddata "data/1000000_i64.keys") ($loaddata "data/1000000_i32.vals"),
 --                 ($loaddata "data/1000000_i64.keys"))
@@ -123,6 +141,10 @@ entry bench_eytzinger_tree_member [n] (hm: eytzinger_tree i32) (keys: [n]i64) =
 
 -- ==
 -- entry: bench_eytzinger_tree_lookup
+-- "n=100000"
+-- script input { (bench_eytzinger_tree_construct ($loaddata "data/100000_i64.keys") ($loaddata "data/100000_i32.vals"),
+--                 ($loaddata "data/100000_i64.keys"))
+--              }
 -- "n=1000000"
 -- script input { (bench_eytzinger_tree_construct ($loaddata "data/1000000_i64.keys") ($loaddata "data/1000000_i32.vals"),
 --                 ($loaddata "data/1000000_i64.keys"))
@@ -134,6 +156,10 @@ entry bench_eytzinger_tree_member [n] (hm: eytzinger_tree i32) (keys: [n]i64) =
 
 -- ==
 -- entry: bench_two_level_member
+-- "n=100000"
+-- script input { (bench_two_level_construct ($loaddata "data/100000_i64.keys") ($loaddata "data/100000_i32.vals"),
+--                 ($loaddata "data/100000_i64.keys"))
+--              }
 -- "n=1000000"
 -- script input { (bench_two_level_construct ($loaddata "data/1000000_i64.keys") ($loaddata "data/1000000_i32.vals"),
 --                 ($loaddata "data/1000000_i64.keys"))
@@ -145,6 +171,10 @@ entry bench_eytzinger_tree_member [n] (hm: eytzinger_tree i32) (keys: [n]i64) =
 
 -- ==
 -- entry: bench_two_level_u32_member
+-- "n=100000"
+-- script input { (bench_two_level_u32_construct ($loaddata "data/100000_i64.keys") ($loaddata "data/100000_i32.vals"),
+--                 ($loaddata "data/100000_i64.keys"))
+--              }
 -- "n=1000000"
 -- script input { (bench_two_level_u32_construct ($loaddata "data/1000000_i64.keys") ($loaddata "data/1000000_i32.vals"),
 --                 ($loaddata "data/1000000_i64.keys"))
@@ -156,6 +186,10 @@ entry bench_eytzinger_tree_member [n] (hm: eytzinger_tree i32) (keys: [n]i64) =
 
 -- ==
 -- entry: bench_linear_member
+-- "n=100000"
+-- script input { (bench_linear_construct ($loaddata "data/100000_i64.keys") ($loaddata "data/100000_i32.vals"),
+--                 ($loaddata "data/100000_i64.keys"))
+--              }
 -- "n=1000000"
 -- script input { (bench_linear_construct ($loaddata "data/1000000_i64.keys") ($loaddata "data/1000000_i32.vals"),
 --                 ($loaddata "data/1000000_i64.keys"))
@@ -167,6 +201,10 @@ entry bench_eytzinger_tree_member [n] (hm: eytzinger_tree i32) (keys: [n]i64) =
 
 -- ==
 -- entry: bench_sorted_array_member
+-- "n=100000"
+-- script input { (bench_sorted_array_construct ($loaddata "data/100000_i64.keys") ($loaddata "data/100000_i32.vals"),
+--                 ($loaddata "data/100000_i64.keys"))
+--              }
 -- "n=1000000"
 -- script input { (bench_sorted_array_construct ($loaddata "data/1000000_i64.keys") ($loaddata "data/1000000_i32.vals"),
 --                 ($loaddata "data/1000000_i64.keys"))
@@ -178,6 +216,10 @@ entry bench_eytzinger_tree_member [n] (hm: eytzinger_tree i32) (keys: [n]i64) =
 
 -- ==
 -- entry: bench_eytzinger_tree_member
+-- "n=100000"
+-- script input { (bench_eytzinger_tree_construct ($loaddata "data/100000_i64.keys") ($loaddata "data/100000_i32.vals"),
+--                 ($loaddata "data/100000_i64.keys"))
+--              }
 -- "n=1000000"
 -- script input { (bench_eytzinger_tree_construct ($loaddata "data/1000000_i64.keys") ($loaddata "data/1000000_i32.vals"),
 --                 ($loaddata "data/1000000_i64.keys"))
