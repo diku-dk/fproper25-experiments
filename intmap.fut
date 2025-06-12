@@ -49,29 +49,29 @@ entry bench_linear_member [n] (hm: linear i32) (keys: [n]i64) =
 module binary_search = mk_arraymap i64key
 type~ sorted_array 't = binary_search.map [] t
 
-entry bench_sorted_array_construct [n] (keys: [n]i64) (vals: [n]i32) : sorted_array i32 =
+entry bench_binary_search_construct [n] (keys: [n]i64) (vals: [n]i32) : sorted_array i32 =
   binary_search.from_array_nodup () (zip keys vals)
 
-entry bench_sorted_array_lookup [n] (hm: sorted_array i32) (keys: [n]i64) =
+entry bench_binary_search_lookup [n] (hm: sorted_array i32) (keys: [n]i64) =
   map (\x -> from_opt (-1) (binary_search.lookup () x hm)) keys
 
-entry bench_sorted_array_member [n] (hm: sorted_array i32) (keys: [n]i64) =
+entry bench_binary_search_member [n] (hm: sorted_array i32) (keys: [n]i64) =
   map (\x -> binary_search.member () x hm) keys
 
 module eytzinger = mk_eytzinger i64key
 type~ eytzinger_tree 't = eytzinger.map [] t
 
-entry bench_eytzinger_tree_construct [n] (keys: [n]i64) (vals: [n]i32) : eytzinger_tree i32 =
+entry bench_eytzinger_construct [n] (keys: [n]i64) (vals: [n]i32) : eytzinger_tree i32 =
   eytzinger.from_array_nodup () (zip keys vals)
 
-entry bench_eytzinger_tree_lookup [n] (hm: eytzinger_tree i32) (keys: [n]i64) =
+entry bench_eytzinger_lookup [n] (hm: eytzinger_tree i32) (keys: [n]i64) =
   map (\x -> from_opt (-1) (eytzinger.lookup () x hm)) keys
 
-entry bench_eytzinger_tree_member [n] (hm: eytzinger_tree i32) (keys: [n]i64) =
+entry bench_eytzinger_member [n] (hm: eytzinger_tree i32) (keys: [n]i64) =
   map (\x -> eytzinger.member () x hm) keys
 
 -- ==
--- entry: bench_two_level_construct bench_two_level_u32_construct bench_linear_construct bench_sorted_array_construct bench_eytzinger_tree_construct
+-- entry: bench_two_level_construct bench_two_level_u32_construct bench_linear_construct bench_binary_search_construct bench_eytzinger_construct
 -- "n=100000"
 -- script input { ($loaddata "data/100000_i64.keys", $loaddata "data/100000_i32.vals") }
 -- "n=1000000"
@@ -125,32 +125,32 @@ entry bench_eytzinger_tree_member [n] (hm: eytzinger_tree i32) (keys: [n]i64) =
 --              }
 
 -- ==
--- entry: bench_sorted_array_lookup
+-- entry: bench_binary_search_lookup
 -- "n=100000"
--- script input { (bench_sorted_array_construct ($loaddata "data/100000_i64.keys") ($loaddata "data/100000_i32.vals"),
+-- script input { (bench_binary_search_construct ($loaddata "data/100000_i64.keys") ($loaddata "data/100000_i32.vals"),
 --                 ($loaddata "data/100000_i64.keys"))
 --              }
 -- "n=1000000"
--- script input { (bench_sorted_array_construct ($loaddata "data/1000000_i64.keys") ($loaddata "data/1000000_i32.vals"),
+-- script input { (bench_binary_search_construct ($loaddata "data/1000000_i64.keys") ($loaddata "data/1000000_i32.vals"),
 --                 ($loaddata "data/1000000_i64.keys"))
 --              }
 -- "n=10000000"
--- script input { (bench_sorted_array_construct ($loaddata "data/10000000_i64.keys") ($loaddata "data/10000000_i32.vals"),
+-- script input { (bench_binary_search_construct ($loaddata "data/10000000_i64.keys") ($loaddata "data/10000000_i32.vals"),
 --                 ($loaddata "data/10000000_i64.keys"))
 --              }
 
 -- ==
--- entry: bench_eytzinger_tree_lookup
+-- entry: bench_eytzinger_lookup
 -- "n=100000"
--- script input { (bench_eytzinger_tree_construct ($loaddata "data/100000_i64.keys") ($loaddata "data/100000_i32.vals"),
+-- script input { (bench_eytzinger_construct ($loaddata "data/100000_i64.keys") ($loaddata "data/100000_i32.vals"),
 --                 ($loaddata "data/100000_i64.keys"))
 --              }
 -- "n=1000000"
--- script input { (bench_eytzinger_tree_construct ($loaddata "data/1000000_i64.keys") ($loaddata "data/1000000_i32.vals"),
+-- script input { (bench_eytzinger_construct ($loaddata "data/1000000_i64.keys") ($loaddata "data/1000000_i32.vals"),
 --                 ($loaddata "data/1000000_i64.keys"))
 --              }
 -- "n=10000000"
--- script input { (bench_eytzinger_tree_construct ($loaddata "data/10000000_i64.keys") ($loaddata "data/10000000_i32.vals"),
+-- script input { (bench_eytzinger_construct ($loaddata "data/10000000_i64.keys") ($loaddata "data/10000000_i32.vals"),
 --                 ($loaddata "data/10000000_i64.keys"))
 --              }
 
@@ -200,31 +200,31 @@ entry bench_eytzinger_tree_member [n] (hm: eytzinger_tree i32) (keys: [n]i64) =
 --              }
 
 -- ==
--- entry: bench_sorted_array_member
+-- entry: bench_binary_search_member
 -- "n=100000"
--- script input { (bench_sorted_array_construct ($loaddata "data/100000_i64.keys") ($loaddata "data/100000_i32.vals"),
+-- script input { (bench_binary_search_construct ($loaddata "data/100000_i64.keys") ($loaddata "data/100000_i32.vals"),
 --                 ($loaddata "data/100000_i64.keys"))
 --              }
 -- "n=1000000"
--- script input { (bench_sorted_array_construct ($loaddata "data/1000000_i64.keys") ($loaddata "data/1000000_i32.vals"),
+-- script input { (bench_binary_search_construct ($loaddata "data/1000000_i64.keys") ($loaddata "data/1000000_i32.vals"),
 --                 ($loaddata "data/1000000_i64.keys"))
 --              }
 -- "n=10000000"
--- script input { (bench_sorted_array_construct ($loaddata "data/10000000_i64.keys") ($loaddata "data/10000000_i32.vals"),
+-- script input { (bench_binary_search_construct ($loaddata "data/10000000_i64.keys") ($loaddata "data/10000000_i32.vals"),
 --                 ($loaddata "data/10000000_i64.keys"))
 --              }
 
 -- ==
--- entry: bench_eytzinger_tree_member
+-- entry: bench_eytzinger_member
 -- "n=100000"
--- script input { (bench_eytzinger_tree_construct ($loaddata "data/100000_i64.keys") ($loaddata "data/100000_i32.vals"),
+-- script input { (bench_eytzinger_construct ($loaddata "data/100000_i64.keys") ($loaddata "data/100000_i32.vals"),
 --                 ($loaddata "data/100000_i64.keys"))
 --              }
 -- "n=1000000"
--- script input { (bench_eytzinger_tree_construct ($loaddata "data/1000000_i64.keys") ($loaddata "data/1000000_i32.vals"),
+-- script input { (bench_eytzinger_construct ($loaddata "data/1000000_i64.keys") ($loaddata "data/1000000_i32.vals"),
 --                 ($loaddata "data/1000000_i64.keys"))
 --              }
 -- "n=10000000"
--- script input { (bench_eytzinger_tree_construct ($loaddata "data/10000000_i64.keys") ($loaddata "data/10000000_i32.vals"),
+-- script input { (bench_eytzinger_construct ($loaddata "data/10000000_i64.keys") ($loaddata "data/10000000_i32.vals"),
 --                 ($loaddata "data/10000000_i64.keys"))
 --              }

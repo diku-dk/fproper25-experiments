@@ -47,13 +47,13 @@ entry bench_two_level_member [n] (s: str) (hm: two_level i32) (keys: [n]strkey.k
 module sorted_array = mk_arraymap strkey
 type~ sorted_array 't = sorted_array.map [] t
 
-entry bench_sorted_array_construct [n] (s: str) (keys: [n]strkey.key) (vals: [n]i32) : sorted_array i32 =
+entry bench_binary_search_construct [n] (s: str) (keys: [n]strkey.key) (vals: [n]i32) : sorted_array i32 =
   sorted_array.from_array_nodup s (zip keys vals)
 
-entry bench_sorted_array_lookup [n] (s: str) (hm: sorted_array i32) (keys: [n]strkey.key) =
+entry bench_binary_search_lookup [n] (s: str) (hm: sorted_array i32) (keys: [n]strkey.key) =
   map (\x -> from_opt (-1) (sorted_array.lookup s x hm)) keys
 
-entry bench_sorted_array_member [n] (s: str) (hm: sorted_array i32) (keys: [n]strkey.key) =
+entry bench_binary_search_member [n] (s: str) (hm: sorted_array i32) (keys: [n]strkey.key) =
   map (\x -> sorted_array.member s x hm) keys
 
 module eytzinger = mk_eytzinger strkey
@@ -69,7 +69,7 @@ entry bench_eytzinger_member [n] (s: str) (hm: eytzinger_tree i32) (keys: [n]str
   map (\x -> eytzinger.member s x hm) keys
 
 -- ==
--- entry: bench_two_level_construct bench_sorted_array_construct bench_eytzinger_construct
+-- entry: bench_two_level_construct bench_binary_search_construct bench_eytzinger_construct
 -- "n=100000"
 -- script input { let s = $loadbytes "data/100000_words.txt"
 --                in (s, words_from_str s, $loaddata "data/100000_i32.vals") }
@@ -108,13 +108,13 @@ entry bench_eytzinger_member [n] (s: str) (hm: eytzinger_tree i32) (keys: [n]str
 -- output @ data/10000000_i32.vals
 
 -- ==
--- entry: bench_sorted_array_lookup
+-- entry: bench_binary_search_lookup
 --
 -- "n=100000"
 -- script input { let s = $loadbytes "data/100000_words.txt"
 --                let keys = words_from_str s
 --                let vals = $loaddata "data/100000_i32.vals"
---                let hm = bench_sorted_array_construct s keys vals
+--                let hm = bench_binary_search_construct s keys vals
 --                in (s, hm, keys) }
 -- output @ data/100000_i32.vals
 --
@@ -122,7 +122,7 @@ entry bench_eytzinger_member [n] (s: str) (hm: eytzinger_tree i32) (keys: [n]str
 -- script input { let s = $loadbytes "data/1000000_words.txt"
 --                let keys = words_from_str s
 --                let vals = $loaddata "data/1000000_i32.vals"
---                let hm = bench_sorted_array_construct s keys vals
+--                let hm = bench_binary_search_construct s keys vals
 --                in (s, hm, keys) }
 -- output @ data/1000000_i32.vals
 --
@@ -130,7 +130,7 @@ entry bench_eytzinger_member [n] (s: str) (hm: eytzinger_tree i32) (keys: [n]str
 -- script input { let s = $loadbytes "data/10000000_words.txt"
 --                let keys = words_from_str s
 --                let vals = $loaddata "data/10000000_i32.vals"
---                let hm = bench_sorted_array_construct s keys vals
+--                let hm = bench_binary_search_construct s keys vals
 --                in (s, hm, keys) }
 -- output @ data/10000000_i32.vals
 
@@ -186,27 +186,27 @@ entry bench_eytzinger_member [n] (s: str) (hm: eytzinger_tree i32) (keys: [n]str
 --                in (s, hm, keys) }
 
 -- ==
--- entry: bench_sorted_array_member
+-- entry: bench_binary_search_member
 --
 -- "n=100000"
 -- script input { let s = $loadbytes "data/100000_words.txt"
 --                let keys = words_from_str s
 --                let vals = $loaddata "data/100000_i32.vals"
---                let hm = bench_sorted_array_construct s keys vals
+--                let hm = bench_binary_search_construct s keys vals
 --                in (s, hm, keys) }
 --
 -- "n=1000000"
 -- script input { let s = $loadbytes "data/1000000_words.txt"
 --                let keys = words_from_str s
 --                let vals = $loaddata "data/1000000_i32.vals"
---                let hm = bench_sorted_array_construct s keys vals
+--                let hm = bench_binary_search_construct s keys vals
 --                in (s, hm, keys) }
 --
 -- "n=10000000"
 -- script input { let s = $loadbytes "data/10000000_words.txt"
 --                let keys = words_from_str s
 --                let vals = $loaddata "data/10000000_i32.vals"
---                let hm = bench_sorted_array_construct s keys vals
+--                let hm = bench_binary_search_construct s keys vals
 --                in (s, hm, keys) }
 
 -- ==

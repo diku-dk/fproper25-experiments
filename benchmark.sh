@@ -14,7 +14,7 @@ make -j $(for N in $Ns; do echo data/${N}_i64.keys data/${N}_i32.vals data/${N}_
 
 echo
 echo Benchmarking Futhark Integer Map
-futhark bench --skip-compilation --backend=cuda intmap.fut
+futhark bench --skip-compilation --backend=cuda intmap.fut --json intmap.json
 
 echo
 echo Benchmarking CUDA Integer Map
@@ -24,7 +24,7 @@ for N in $Ns; do
 done
 
 echo Benchmarking Futhark String Map
-futhark bench --skip-compilation --backend=cuda strmap.fut
+futhark bench --skip-compilation --backend=cuda strmap.fut --json strmap.json
 
 echo
 echo Benchmarking CUDA String Map
