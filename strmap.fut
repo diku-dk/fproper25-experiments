@@ -51,10 +51,10 @@ entry bench_eytzinger_tree_lookup [n] (s: str) (hm: eytzinger_tree i32) (keys: [
   map (\x -> from_opt (-1) (eytzinger.lookup s x hm)) keys
 
 -- ==
+-- entry: bench_two_level_construct bench_eytzinger_tree_construct
 -- "n=100000"
 -- script input { let s = $loadbytes "data/100000_words.txt"
 --                in (s, words_from_str s, $loaddata "data/100000_i32.vals") }
--- entry: bench_two_level_construct bench_eytzinger_tree_construct
 -- "n=1000000"
 -- script input { let s = $loadbytes "data/1000000_words.txt"
 --                in (s, words_from_str s, $loaddata "data/1000000_i32.vals") }
@@ -77,13 +77,6 @@ entry bench_eytzinger_tree_lookup [n] (s: str) (hm: eytzinger_tree i32) (keys: [
 --                let hm = bench_two_level_construct s keys vals
 --                in (s, hm, keys) }
 -- output @ data/1000000_i32.vals
--- "n=10000000"
--- script input { let s = $loadbytes "data/10000000_words.txt"
---                let keys = words_from_str s
---                let vals = $loaddata "data/10000000_i32.vals"
---                let hm = bench_two_level_construct s keys vals
---                in (s, hm, keys) }
--- output @ data/10000000_i32.vals
 
 -- ==
 -- entry: bench_eytzinger_tree_lookup
@@ -103,11 +96,3 @@ entry bench_eytzinger_tree_lookup [n] (s: str) (hm: eytzinger_tree i32) (keys: [
 --                let hm = bench_eytzinger_tree_construct s keys vals
 --                in (s, hm, keys) }
 -- output @ data/1000000_i32.vals
---
--- "n=10000000"
--- script input { let s = $loadbytes "data/10000000_words.txt"
---                let keys = words_from_str s
---                let vals = $loaddata "data/10000000_i32.vals"
---                let hm = bench_eytzinger_tree_construct s keys vals
---                in (s, hm, keys) }
--- output @ data/10000000_i32.vals
