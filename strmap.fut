@@ -76,6 +76,9 @@ entry bench_eytzinger_member [n] (s: str) (hm: eytzinger_tree i32) (keys: [n]str
 -- "n=1000000"
 -- script input { let s = $loadbytes "data/1000000_words.txt"
 --                in (s, words_from_str s, $loaddata "data/1000000_i32.vals") }
+-- "n=10000000"
+-- script input { let s = $loadbytes "data/10000000_words.txt"
+--                in (s, words_from_str s, $loaddata "data/10000000_i32.vals") }
 
 -- ==
 -- entry: bench_two_level_lookup
@@ -95,6 +98,14 @@ entry bench_eytzinger_member [n] (s: str) (hm: eytzinger_tree i32) (keys: [n]str
 --                let hm = bench_two_level_construct s keys vals
 --                in (s, hm, keys) }
 -- output @ data/1000000_i32.vals
+--
+-- "n=10000000"
+-- script input { let s = $loadbytes "data/10000000_words.txt"
+--                let keys = words_from_str s
+--                let vals = $loaddata "data/10000000_i32.vals"
+--                let hm = bench_two_level_construct s keys vals
+--                in (s, hm, keys) }
+-- output @ data/10000000_i32.vals
 
 -- ==
 -- entry: bench_sorted_array_lookup
@@ -114,6 +125,14 @@ entry bench_eytzinger_member [n] (s: str) (hm: eytzinger_tree i32) (keys: [n]str
 --                let hm = bench_sorted_array_construct s keys vals
 --                in (s, hm, keys) }
 -- output @ data/1000000_i32.vals
+--
+-- "n=10000000"
+-- script input { let s = $loadbytes "data/10000000_words.txt"
+--                let keys = words_from_str s
+--                let vals = $loaddata "data/10000000_i32.vals"
+--                let hm = bench_sorted_array_construct s keys vals
+--                in (s, hm, keys) }
+-- output @ data/10000000_i32.vals
 
 -- ==
 -- entry: bench_eytzinger_lookup
@@ -133,6 +152,14 @@ entry bench_eytzinger_member [n] (s: str) (hm: eytzinger_tree i32) (keys: [n]str
 --                let hm = bench_eytzinger_construct s keys vals
 --                in (s, hm, keys) }
 -- output @ data/1000000_i32.vals
+--
+-- "n=10000000"
+-- script input { let s = $loadbytes "data/10000000_words.txt"
+--                let keys = words_from_str s
+--                let vals = $loaddata "data/10000000_i32.vals"
+--                let hm = bench_eytzinger_construct s keys vals
+--                in (s, hm, keys) }
+-- output @ data/10000000_i32.vals
 
 -- ==
 -- entry: bench_two_level_member
@@ -148,6 +175,13 @@ entry bench_eytzinger_member [n] (s: str) (hm: eytzinger_tree i32) (keys: [n]str
 -- script input { let s = $loadbytes "data/1000000_words.txt"
 --                let keys = words_from_str s
 --                let vals = $loaddata "data/1000000_i32.vals"
+--                let hm = bench_two_level_construct s keys vals
+--                in (s, hm, keys) }
+--
+-- "n=10000000"
+-- script input { let s = $loadbytes "data/10000000_words.txt"
+--                let keys = words_from_str s
+--                let vals = $loaddata "data/10000000_i32.vals"
 --                let hm = bench_two_level_construct s keys vals
 --                in (s, hm, keys) }
 
@@ -167,6 +201,13 @@ entry bench_eytzinger_member [n] (s: str) (hm: eytzinger_tree i32) (keys: [n]str
 --                let vals = $loaddata "data/1000000_i32.vals"
 --                let hm = bench_sorted_array_construct s keys vals
 --                in (s, hm, keys) }
+--
+-- "n=10000000"
+-- script input { let s = $loadbytes "data/10000000_words.txt"
+--                let keys = words_from_str s
+--                let vals = $loaddata "data/10000000_i32.vals"
+--                let hm = bench_sorted_array_construct s keys vals
+--                in (s, hm, keys) }
 
 -- ==
 -- entry: bench_eytzinger_member
@@ -182,5 +223,12 @@ entry bench_eytzinger_member [n] (s: str) (hm: eytzinger_tree i32) (keys: [n]str
 -- script input { let s = $loadbytes "data/1000000_words.txt"
 --                let keys = words_from_str s
 --                let vals = $loaddata "data/1000000_i32.vals"
+--                let hm = bench_eytzinger_construct s keys vals
+--                in (s, hm, keys) }
+--
+-- "n=10000000"
+-- script input { let s = $loadbytes "data/10000000_words.txt"
+--                let keys = words_from_str s
+--                let vals = $loaddata "data/10000000_i32.vals"
 --                let hm = bench_eytzinger_construct s keys vals
 --                in (s, hm, keys) }
