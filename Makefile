@@ -3,6 +3,8 @@ NVCC=nvcc
 CFLAGS=-O3 -IcuCollections/include --gpu-architecture=sm_80 --expt-extended-lambda
 FUTHARK=futhark
 
+.PHONY: clean
+
 all: host_bulk_example intmap_cuco random_words strmap_cuco
 
 mkdata: mkdata.fut
@@ -28,3 +30,16 @@ data/%_words.txt: random_words
 
 %: %.cu data.hpp timing.hpp
 	$(NVCC) $< $(CFLAGS) -o $@
+
+clean:
+	rm -r data \
+              host_bulk_example \
+	      intmap_cuco \
+	      random_words \
+	      strmap_cuco \
+	      strmap \
+	      intmap \
+	      strmap.c \
+	      intmap.c \
+	      intmap.json \
+	      strmap.json 2>/dev/null || exit 0
