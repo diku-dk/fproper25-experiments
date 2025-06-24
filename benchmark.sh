@@ -23,6 +23,7 @@ for N in $Ns; do
     ./intmap_cuco data/${N}_i64.keys data/${N}_i32.vals
 done
 
+echo
 echo Benchmarking Futhark String Map
 futhark bench --skip-compilation --backend=cuda strmap.fut --json strmap.json
 

@@ -3,7 +3,7 @@
 import "lib/github.com/diku-dk/cpprandom/shuffle"
 import "lib/github.com/diku-dk/cpprandom/random"
 
-module shuffle = mk_shuffle xorshift128plus
+module shuffle = mk_shuffle u64 xorshift128plus
 
 def fry xs = (shuffle.shuffle (xorshift128plus.rng_from_seed [123]) xs).1
 

@@ -6,19 +6,9 @@ import "lib/github.com/diku-dk/containers/eytzinger"
 import "lib/github.com/diku-dk/containers/key"
 import "lib/github.com/diku-dk/containers/opt"
 import "lib/github.com/diku-dk/containers/slice"
-import "lib/github.com/diku-dk/cpprandom/random"
-
-module engine = xorshift128plus
-def seed = engine.rng_from_seed [1]
 
 type char = u8
 type~ str = []char
-
-module strkey = mk_slice_key u8key (mk_encoder u8)
-module strarray = mk_array_key strkey engine
-
-module two_level_hashmap = mk_hashmap strkey engine
-type~ two_level 't = two_level_hashmap.map [] t
 
 def is_space (x: char) = x == '\n' || x == ' '
 def isnt_space x = !(is_space x)
@@ -33,6 +23,10 @@ def words [n] (s: [n]char) =
   |> filter (\(i, (x, y)) -> (i == n - 1 && x > 0) || x > y)
   |> map (\(i, (x, _)) -> slice.mk (i - x + 1) x)
 
+module strkey = mk_slice_key u8key (mk_encoder u8)
+module two_level_hashmap = mk_hashmap strkey
+type~ two_level 't = two_level_hashmap.map [] t
+
 entry words_from_str (s: str) : []strkey.key = words s
 
 entry bench_two_level_construct [n] (s: str) (keys: [n]strkey.key) (vals: [n]i32) : two_level i32 =
@@ -43,6 +37,19 @@ entry bench_two_level_lookup [n] (s: str) (hm: two_level i32) (keys: [n]strkey.k
 
 entry bench_two_level_member [n] (s: str) (hm: two_level i32) (keys: [n]strkey.key) =
   map (\x -> two_level_hashmap.member s x hm) keys
+
+module strkey_u32 = mk_slice_key_u32 u8key_u32 (mk_encoder_u32 u8)
+module two_level_hashmap_u32 = mk_hashmap_u32 strkey_u32
+type~ two_level_u32 't = two_level_hashmap_u32.map [] t
+
+entry bench_two_level_u32_construct [n] (s: str) (keys: [n]strkey.key) (vals: [n]i32) : two_level_u32 i32 =
+  two_level_hashmap_u32.from_array_nodup s (zip keys vals)
+
+entry bench_two_level_u32_lookup [n] (s: str) (hm: two_level_u32 i32) (keys: [n]strkey.key) =
+  map (\x -> from_opt (-1) (two_level_hashmap_u32.lookup s x hm)) keys
+
+entry bench_two_level_u32_member [n] (s: str) (hm: two_level_u32 i32) (keys: [n]strkey.key) =
+  map (\x -> two_level_hashmap_u32.member s x hm) keys
 
 module sorted_array = mk_arraymap strkey
 type~ sorted_array 't = sorted_array.map [] t
@@ -69,7 +76,7 @@ entry bench_eytzinger_member [n] (s: str) (hm: eytzinger_tree i32) (keys: [n]str
   map (\x -> eytzinger.member s x hm) keys
 
 -- ==
--- entry: bench_two_level_construct bench_binary_search_construct bench_eytzinger_construct
+-- entry: bench_two_level_construct bench_two_level_u32_construct bench_binary_search_construct bench_eytzinger_construct
 -- "n=100000"
 -- script input { let s = $loadbytes "data/100000_words.txt"
 --                in (s, words_from_str s, $loaddata "data/100000_i32.vals") }
@@ -104,6 +111,33 @@ entry bench_eytzinger_member [n] (s: str) (hm: eytzinger_tree i32) (keys: [n]str
 --                let keys = words_from_str s
 --                let vals = $loaddata "data/10000000_i32.vals"
 --                let hm = bench_two_level_construct s keys vals
+--                in (s, hm, keys) }
+-- output @ data/10000000_i32.vals
+
+-- ==
+-- entry: bench_two_level_u32_lookup
+--
+-- "n=100000"
+-- script input { let s = $loadbytes "data/100000_words.txt"
+--                let keys = words_from_str s
+--                let vals = $loaddata "data/100000_i32.vals"
+--                let hm = bench_two_level_u32_construct s keys vals
+--                in (s, hm, keys) }
+-- output @ data/100000_i32.vals
+--
+-- "n=1000000"
+-- script input { let s = $loadbytes "data/1000000_words.txt"
+--                let keys = words_from_str s
+--                let vals = $loaddata "data/1000000_i32.vals"
+--                let hm = bench_two_level_u32_construct s keys vals
+--                in (s, hm, keys) }
+-- output @ data/1000000_i32.vals
+--
+-- "n=10000000"
+-- script input { let s = $loadbytes "data/10000000_words.txt"
+--                let keys = words_from_str s
+--                let vals = $loaddata "data/10000000_i32.vals"
+--                let hm = bench_two_level_u32_construct s keys vals
 --                in (s, hm, keys) }
 -- output @ data/10000000_i32.vals
 
@@ -183,6 +217,30 @@ entry bench_eytzinger_member [n] (s: str) (hm: eytzinger_tree i32) (keys: [n]str
 --                let keys = words_from_str s
 --                let vals = $loaddata "data/10000000_i32.vals"
 --                let hm = bench_two_level_construct s keys vals
+--                in (s, hm, keys) }
+
+-- ==
+-- entry: bench_two_level_u32_member
+--
+-- "n=100000"
+-- script input { let s = $loadbytes "data/100000_words.txt"
+--                let keys = words_from_str s
+--                let vals = $loaddata "data/100000_i32.vals"
+--                let hm = bench_two_level_u32_construct s keys vals
+--                in (s, hm, keys) }
+--
+-- "n=1000000"
+-- script input { let s = $loadbytes "data/1000000_words.txt"
+--                let keys = words_from_str s
+--                let vals = $loaddata "data/1000000_i32.vals"
+--                let hm = bench_two_level_u32_construct s keys vals
+--                in (s, hm, keys) }
+--
+-- "n=10000000"
+-- script input { let s = $loadbytes "data/10000000_words.txt"
+--                let keys = words_from_str s
+--                let vals = $loaddata "data/10000000_i32.vals"
+--                let hm = bench_two_level_u32_construct s keys vals
 --                in (s, hm, keys) }
 
 -- ==

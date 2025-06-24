@@ -4,11 +4,8 @@ import "lib/github.com/diku-dk/containers/arraymap"
 import "lib/github.com/diku-dk/containers/eytzinger"
 import "lib/github.com/diku-dk/containers/key"
 import "lib/github.com/diku-dk/containers/opt"
-import "lib/github.com/diku-dk/cpprandom/random"
 
-module engine = xorshift128plus
-
-module two_level_hashmap = mk_hashmap i64key engine
+module two_level_hashmap = mk_hashmap i64key
 type~ two_level 't = ?[n].two_level_hashmap.map [n] t
 
 entry bench_two_level_construct [n] (keys: [n]i64) (vals: [n]i32) : two_level i32 =
@@ -20,9 +17,7 @@ entry bench_two_level_lookup [n] (hm: two_level i32) (keys: [n]i64) =
 entry bench_two_level_member [n] (hm: two_level i32) (keys: [n]i64) =
   map (\x -> two_level_hashmap.member () x hm) keys
 
-module engine_u32 = minstd_rand
-
-module two_level_hashmap_u32 = mk_hashmap_u32 i64key_u32 engine_u32
+module two_level_hashmap_u32 = mk_hashmap_u32 i64key_u32
 type~ two_level_u32 't = ?[n].two_level_hashmap_u32.map [n] t
 
 entry bench_two_level_u32_construct [n] (keys: [n]i64) (vals: [n]i32) : two_level_u32 i32 =
@@ -34,7 +29,7 @@ entry bench_two_level_u32_lookup [n] (hm: two_level_u32 i32) (keys: [n]i64) =
 entry bench_two_level_u32_member [n] (hm: two_level_u32 i32) (keys: [n]i64) =
   map (\x -> two_level_hashmap_u32.member () x hm) keys
 
-module linear_hashmap = mk_linear_hashmap i64key engine
+module linear_hashmap = mk_linear_hashmap i64key
 type~ linear 't = linear_hashmap.map [] t
 
 entry bench_linear_construct [n] (keys: [n]i64) (vals: [n]i32) : linear i32 =
